@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MELLSTROY.HOUSE — Дом, где хаты находят хозяев</title>
+
+  <meta name="description"
+    content="Виртуальный Дом Меллстроя: получи свою хату, покрути колесо удачи, открой кейсы, лови цитаты и смотри фан-галерею.">
+  <meta property="og:title" content="MELLSTROY.HOUSE — розыгрыш хат каждый день">
+  <meta property="og:description" content="Каждый день новая хата. Стань легендой Меллстроя!">
+  <meta property="og:image" content="https://mellstroy.house/img/preview.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mellstroy.house">
+  <meta name="theme-color" content="#ff003c">
+
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <canvas id="neonBackdrop" class="neon-backdrop" aria-hidden="true"></canvas>
+  <div class="tail-bg" id="tailBg" aria-hidden="true"></div>
+  <div class="tail-bottom" aria-hidden="true"></div>
+  <div id="windFx" aria-hidden="true"></div>
+
+  <section class="hero" id="top">
+    <div class="brick-wall" id="brickWall" aria-hidden="true"></div>
+    <div class="hero-inner container">
+      <div class="badge">Фан-проект • #mellstroygame</div>
+      <h1 class="title">Дом, где хаты находят хозяев</h1>
+      <p class="subtitle">Каждый день Меллстрой дарит хаты. Здесь — твоя виртуальная квартира, колесо удачи,
+        коробки-сюрпризы, цитаты и галерея фанатов.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="ctaGetApt">🎲 Получить свою хату</button>
+        <a class="btn btn-ghost" id="ctaWheel" href="#wheel">🎡 Колесо удачи</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="apt">
+    <div class="container">
+      <h2>🎁 Твоя виртуальная хата</h2>
+      <p class="lead">Нажми — получи случайную квартиру. Скринь, делись, отмечай.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="apt-visual" id="aptVisual">
+            <div class="apt-badge" id="aptBadge">Хата №—</div>
+          </div>
+          <div class="apt-info" id="aptInfo">
+            <div class="row">
+              <div class="kv" id="aptType">Тип: —</div>
+              <div class="kv" id="aptCity">Город: —</div>
+              <div class="kv" id="aptView">Вид: —</div>
+            </div>
+            <div class="kv" id="aptDesc" style="width:100%">Описание: —</div>
+          </div>
+          <div class="apt-actions">
+            <button class="btn btn-primary" id="btnReroll">🔄 Получить другую</button>
+            <button class="btn" id="btnNeighbors">👀 Посмотреть соседей</button>
+          </div>
+          <div class="neighbors" id="neighborsBox" hidden>
+            <strong>Твои соседи:</strong>
+            <div id="neighborsList">—</div>
+          </div>
+        </div>
+
+        <div class="card brick-card">
+          <h3>🏠 Вложи свой кирпич в дом</h3>
+          <div class="wall" id="wall" aria-live="polite">
+            <div class="crane" id="crane">🪝 Кран</div>
+            <div class="wall-stage" id="wallStage"></div>
+            <div class="wall-footer">
+              <input id="nickInput" placeholder="Твой никнейм" aria-label="Никнейм"
+                style="flex:1;min-width:180px;background:#121220;border:1px solid #29293d;border-radius:12px;padding:.75rem 1rem;color:#e9e9f4;outline:none">
+              <button class="btn" id="btnPutBrick" disabled>🧱 Поставить кирпич</button>
+              <small id="wallInfo">Заполнено: 0%</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="wheel">
+    <div class="container">
+      <h2>🎡 Колесо удачи Меллстроя</h2>
+      <p class="lead">Крути — вдруг выпадет «элитка в Дубае»? Или Wi-Fi с пингом 1 мс 😅</p>
+      <div class="wheel-wrap">
+        <div class="card wheel-card reveal-ring" id="wheelCard">
+          <div class="wheel" id="wheelBox">
+            <div class="marker"></div>
+            <canvas id="wheelCanvas"></canvas>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <button class="btn btn-primary" id="spinBtn">🌀 Крутить</button>
+          </div>
+          <div class="drop" id="wheelDrop">—</div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:6px">Призы на колесе</h3>
+          <div class="wheel-labels" id="wheelLabels"></div>
+          <p class="lead" style="margin-top:12px">*Это фан-развлечение. Реальные квартиры — у Андрея 😉</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cases">
+    <div class="container">
+      <h2>📦 Хата в коробке</h2>
+      <p class="lead">Выбирай кейс — внутри мемные предметы.</p>
+      <div class="card sweep" id="casesCard">
+        <div class="cases">
+          <div class="case" data-tier="basic">
+            <div class="lid"></div>
+            <div class="box"></div>
+            <div class="title">BASIC</div>
+          </div>
+          <div class="case" data-tier="pro">
+            <div class="lid"></div>
+            <div class="box"></div>
+            <div class="title">PRO</div>
+          </div>
+          <div class="case" data-tier="legend">
+            <div class="lid"></div>
+            <div class="box"></div>
+            <div class="title">LEGEND</div>
+          </div>
+        </div>
+
+        <div id="winOverlay" aria-live="assertive"></div>
+        <div id="inventory" hidden></div>
+
+        <div class="drop" id="caseDrop">—</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quotes">
+    <div class="container">
+      <h2>💬 Стена фраз</h2>
+      <p class="lead">Теперь с пузырьками — дыши вайбом, а не воздухом.</p>
+      <div class="card quotes" id="quotesWall">
+        <canvas class="bubbles" id="bubbles"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="container">
+      <h2>🎥 Галерея фан-работ</h2>
+      <p class="lead">ЛЕГО-портреты, билборды, граффити, мемы.</p>
+      <div class="card">
+        <div class="gallery" id="galleryGrid">
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/grills.png"
+              alt="Грилзы с символами"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Grills</span>
+          </div>
+  
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/tracing-portraits.png"
+              alt="Станок для обводки портретов"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Portrait Setup</span>
+          </div>
+  
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/shaving-challenge.png"
+              alt="Челлендж: сбривает волосы у авто"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Challenge</span>
+          </div>
+  
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/lego-portrait.png"
+              alt="LEGO-портрет Mellstroy Game"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">LEGO Portrait</span>
+          </div>
+  
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/sketch.png"
+              alt="Скетч Mellstroy.game с ключами"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Sketch</span>
+          </div>
+  
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/billboard-city.png"
+              alt="Билборд MELLSTROY.GAME в городе"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Billboard</span>
+          </div>
+  
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/handmade-poster.png"
+              alt="Самодельная табличка mellstroy.game"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Handmade Sign</span>
+          </div>
+  
+          <!-- 8. Реклама в метро -->
+          <div class="tile">
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+              data-src="img/gallery/metro-promo.png"
+              alt="Сцена в метро с промо"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="label">Metro Promo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <footer>
+    <div class="container">
+      <p>Создан фанатами для фанатов. Не связано с оригинальным блогером.</p>
+      <p>TG: <a href="https://t.me/MilMak13" target="_blank">@MilMak13</a> • TikTok: <a
+          href="https://tiktok.com/@milmak13" target="_blank">@milmak13</a> • <span
+          style="color:#6f6f89">#mellstroygame</span></p>
+    </div>
+  </footer>
+
+  <script src="js/index.js"></script>
+</body>
+
+</html>
